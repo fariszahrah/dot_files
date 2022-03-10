@@ -10,8 +10,9 @@ autocmd FileType html set omnifunc=htmlcomplete#CompleteTags noci
 " syntax highlighting 
 syntax on
 
-"set t_RB='t_RB'
-hi Comment ctermfg=DarkBlue
+" set t_RB='t_RB'
+set background=light
+
 
 "python helping
 autocmd FileType python set sw=4
@@ -72,6 +73,8 @@ Plug 'tomlion/vim-solidity'
 
 "file explorer
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+"add git support to nerd tree
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
 "UltiSnips - The ultimate snippet solution for Vim.
 Plug 'SirVer/ultisnips'
@@ -83,6 +86,20 @@ call plug#end()
 
 "set simplyFold setting
 set foldmethod=indent 
+
+"Nerdtree settings
+"close nerd tree if it is the only open window
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+"open nerdtree if I open a directory 
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+"auto open nerdtree 
+autocmd vimenter * NERDTree | wincmd p
+"let NERDTreeQuitOnOpen = 1
+let NERDTreeMinimalUI = 1
+"let NERDTreeDirArrows = 1
+
+
 
 "youcompleteme settings
 let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
